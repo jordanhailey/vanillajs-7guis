@@ -1,3 +1,5 @@
+import {appendElementToDOM} from "../utils/index.js";
+
 const counterContainer = document.createElement("div");
 counterContainer.setAttribute("aria-label","Counter is at 0");
 counterContainer.style = "display:flex;align-items:center;";
@@ -45,23 +47,4 @@ counterContainer.addEventListener("focusout",()=>{
 counterInc.addEventListener("click",incrementCounter);
 counterDec.addEventListener("click",decrementCounter);
 
-const appendElementToDOM = (element) => {
-  element.tabIndex = Number(element.tabIndex) >= 0 ? element.tabIndex : -1;
-  setTimeout(()=>element.classList.add("focusable"),0);
-  return async (el) => {
-    try {
-
-    } catch (error) {
-
-    } finally {
-      return new Promise((resolve,_)=>{
-        setTimeout(()=>{
-          element.id = el.closest("[data-module-id]").dataset.moduleId;
-          el.appendChild(element);
-          resolve(el);
-        },0)
-      })
-    }
-  }
-}
 export default appendElementToDOM(counterContainer);

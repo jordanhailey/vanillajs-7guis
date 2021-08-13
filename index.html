@@ -74,6 +74,7 @@
           }
           else reject(false);
         });
+        setTimeout(()=>qS(mod,".focusable").focus(),0)
         return dataToRender;
       }
       else if (!mod.open && eventType == "click" && mod.dataset.opened == "true") {
