@@ -4,19 +4,51 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jordan Hailey | 7 GUIs</title>
+  <title>Jordan Hailey | 7GUIs</title>
 </head>
 <body>
   <div class="page-wrapper">
     <header class="content-container">
-      <div>7 GUIs</div>
+      <h1 title="7 Graphical User Interfaces">7GUIs</h1>
+      <nav id="nav" tabindex="-1">
+        <p>Seven graphical user interfaces to sharpen your frontend development skills</p>
+        <ol>
+          <li><a href="#gui-1">Counter</a></li>
+        </ol>
+      </nav>
     </header>
     <main class="content-container">
-      <details id="counter" data-module="./counter/index.js" data-opened="false">
-        <summary>1. Counter</summary>
+      <details data-module="./counter/index.js" data-opened="false" data-module-id="counter">
+        <summary id="gui-1"><h2 style="display: inline-block;">1. Counter</h1></summary>
         <div class="module-container" data-loaded="false">
           <div class="module"></div>
         </div>
+        <p>Counter Challenge Requirements</p>
+        <p>The task is to build a frame containing a display <code>D</code>
+          and a button <code>B</code>. Initially, the value in <code>D</code>
+          is <code>0</code> and each click of <code>B</code> increases the
+          value in <code>D</code> by one.
+        </p>
+        <p>My Solution</p>
+        <p>Although the requirements ask for only two elements (a display field
+          and a button to increment) I wanted more than one option for users to
+          be able to interact with the GUI.
+        </p>
+        <p>
+          My additional features include:
+          <ul>
+            <li>An option to decrement the value</li>
+            <li>
+              <span>Accessibility improvements such as ARIA labels, and key press listeners for users that rely on screen readers and keyboard navigation.</span>
+              <ul>
+                <li><a target="_blank" rel="noopenner noreferrer"
+                    href="https://www.codecademy.com/articles/how-to-setup-screen-reader"
+                    >Try turning your screen reader on</a>,
+                    <a href="#counter">move your focus to the counter</a>, and then use the Up and Down Arrow keys.</li>
+              </ul>
+            </li>
+          </ul>
+        </p>
       </details>
     </main class="content-container">
     <footer></footer>
@@ -25,7 +57,7 @@
     function qS(rootDomEl,x){return rootDomEl?.querySelector(x)};
     function qSA(rootDomEl,x){return rootDomEl?.querySelectorAll(x)};
 
-    async function loadModule(mod) {
+    async function loadModule(mod,eventType=null) {
       if (mod.dataset.opened == "false") {
         let moduleContainer, modToLoad, dataToRender;
         mod.dataset.opened = true;
@@ -43,7 +75,10 @@
           else reject(false);
         });
         return dataToRender;
-      };
+      }
+      else if (!mod.open && eventType == "click" && mod.dataset.opened == "true") {
+        setTimeout(()=>qS(mod,".focusable").focus(),0)
+      }
     }
 
     qSA(document,"[data-module]").forEach(function loadModuleEventListeners(mod) {
@@ -58,7 +93,8 @@
           mod.addEventListener("mouseout",()=>{if (timeout !== undefined) clearTimeout(timeout);});
         }
       });
-      mod.addEventListener("click",function clickEvent(){loadModule(mod);});
+      mod.addEventListener("click",function clickEvent(e){loadModule(mod,e.type);});
+      if (mod.open) setTimeout(()=>loadModule(mod),1000)
     })
 
   </script>
