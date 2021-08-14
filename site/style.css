@@ -1,9 +1,11 @@
 :root {
-  --max-grid-page-content-width:100ch;
-  --max-grid-page-content-padding:2rem;
-  --content-container-padding: max(calc((100vw - (var(--max-grid-page-content-width) + (2 * var(--max-grid-page-content-padding)))) / 2),1.25rem);
+  --max-grid-page-content-width: 800px;
+  --max-grid-page-content-padding: 32px;
+  --content-container-padding: max(calc((100vw - (var(--max-grid-page-content-width) + (2 * var(--max-grid-page-content-padding)))) / 2),20px);
 }
-
+html {
+  font-size: 16px;
+}
 body {margin: 0;}
 .page-wrapper > .content-container {
   padding: 0 var(--content-container-padding);
@@ -32,14 +34,14 @@ body {margin: 0;}
   width: 5em;
   height: 5em;
   margin: 0 .5em;
-  font-size: 12px;
+  font-size: 0.75rem;
   text-indent: 999em;
   overflow: hidden;
   animation: spin 1s infinite steps(8);
 }
 
 [data-loaded="false"] {
-  font-size: 6px;
+  font-size: 0.5rem;
 }
 
 [data-loaded="false"]:before,
@@ -76,3 +78,5 @@ body {margin: 0;}
   transform: rotate(-135deg);
   background: #bbb;
 }
+
+summary > * {display: inline-block;}

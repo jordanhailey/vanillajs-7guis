@@ -8,6 +8,7 @@ async function initialiazeModuleLoader() {
 initialiazeModuleLoader()
 
 async function loadModule(mod,eventType=null) {
+  if (!mod.dataset.module) return;
   if (mod.dataset.opened == "false") {
     let moduleContainer, dataToRender;
     mod.dataset.opened = true;
@@ -17,6 +18,7 @@ async function loadModule(mod,eventType=null) {
     }
     console.log(`Loading ${mod.dataset.module}`);
     const module = await moduleLoader(mod.dataset.module);
+    if (!module) return;
     dataToRender = await new Promise(async (resolve,reject) => {
       const content = await module(qS(moduleContainer,".module"));
       if (content) {
@@ -35,6 +37,7 @@ async function loadModule(mod,eventType=null) {
 }
 
 const modules = qSA(document,"[data-module]");
+console.log({modules});
 modules.forEach(function loadModuleEventListeners(mod) {
   // Try to preload content if mouse is hovering for sustained period
   mod.addEventListener("mouseover",function mouseOverLoad() {
