@@ -1,13 +1,13 @@
 {
-  "name": "7guis",
+  "name": "vanillajs-7guis",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A Vanilla JS implementation of the 7GUIs programming benchmark",
+  "main": "site/index.html",
   "scripts": {
     "start": "browser-sync start --server \"site\" --watch file"
   },
   "keywords": [],
-  "author": "",
+  "author": "jordanhailey",
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.27.5"
