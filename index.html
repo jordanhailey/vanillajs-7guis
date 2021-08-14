@@ -5,30 +5,33 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jordan Hailey | 7GUIs</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="page-wrapper">
     <header class="content-container">
-      <h1 title="7 Graphical User Interfaces">7GUIs</h1>
+      <h1 title="7 Graphical User Interfaces">Jordan Hailey's 7GUIs</h1>
       <nav id="nav" tabindex="-1">
-        <p>Seven graphical user interfaces to sharpen your frontend development skills</p>
+        <p>A <a  target="_blank" rel="noopenner noreferrer" href="http://vanilla-js.com/">Vanilla JavaScript</a> implementation of the 7GUIs (Graphical User Interfaces) to sharpen and showcase my frontend development skills.</p>
         <ol>
           <li><a href="#gui-1">Counter</a></li>
         </ol>
       </nav>
     </header>
     <main class="content-container">
-      <details data-module="./counter/index.js" data-opened="false" data-module-id="counter">
-        <summary id="gui-1"><h2 style="display: inline-block;">1. Counter</h1></summary>
+      <details data-module="counter" data-opened="false">
+        <summary id="gui-1"><h2 style="display: inline-block;">Counter</h2></summary>
         <div class="module-container" data-loaded="false">
           <div class="module"></div>
         </div>
         <p>Counter Challenge Requirements</p>
-        <p>The task is to build a frame containing a display <code>D</code>
-          and a button <code>B</code>. Initially, the value in <code>D</code>
-          is <code>0</code> and each click of <code>B</code> increases the
-          value in <code>D</code> by one.
-        </p>
+        <ul>
+          <li>Build a frame containing a display <code>D</code>
+            and a button <code>B</code>.</li>
+            <li>Initially, the value in <code>D</code>
+              is <code>0</code> and each click of <code>B</code> increases the
+              value in <code>D</code> by one.</li>
+        </ul>
         <p>My Solution</p>
         <p>Although the requirements ask for only two elements (a display field
           and a button to increment) I wanted more than one option for users to
@@ -37,7 +40,7 @@
         <p>
           My additional features include:
           <ul>
-            <li>An option to decrement the value</li>
+            <li>An option to decrement the value.</li>
             <li>
               <span>Accessibility improvements such as ARIA labels, and key press listeners for users that rely on screen readers and keyboard navigation.</span>
               <ul>
@@ -53,127 +56,6 @@
     </main class="content-container">
     <footer></footer>
   </div>
-  <script>
-    function qS(rootDomEl,x){return rootDomEl?.querySelector(x)};
-    function qSA(rootDomEl,x){return rootDomEl?.querySelectorAll(x)};
-
-    async function loadModule(mod,eventType=null) {
-      if (mod.dataset.opened == "false") {
-        let moduleContainer, modToLoad, dataToRender;
-        mod.dataset.opened = true;
-        moduleContainer = mod.querySelector(".module-container");
-        modToLoad = mod.dataset.module;
-        console.log(`Loading ${mod.id}`);
-        const {default:module} = await import(modToLoad);
-        dataToRender = await new Promise(async (resolve,reject) => {
-          const content = await module(qS(moduleContainer,".module"));
-          if (content) {
-            moduleContainer.dataset.loaded = true;
-            console.log(`${mod.id} mounted:`,mod);
-            resolve(true);
-          }
-          else reject(false);
-        });
-        setTimeout(()=>qS(mod,".focusable").focus(),0)
-        return dataToRender;
-      }
-      else if (!mod.open && eventType == "click" && mod.dataset.opened == "true") {
-        setTimeout(()=>qS(mod,".focusable").focus(),0)
-      }
-    }
-
-    qSA(document,"[data-module]").forEach(function loadModuleEventListeners(mod) {
-      // Try to preload content if mouse is hovering for sustained period
-      mod.addEventListener("mouseover",function mouseOverLoad() {
-        let timeout;
-        if (mod.dataset.opened == "false") {
-          timeout = setTimeout(function hoverEvent() {
-            loadModule(mod);
-          },1500);
-          // do not load if user is just scrolling by
-          mod.addEventListener("mouseout",()=>{if (timeout !== undefined) clearTimeout(timeout);});
-        }
-      });
-      mod.addEventListener("click",function clickEvent(e){loadModule(mod,e.type);});
-      if (mod.open) setTimeout(()=>loadModule(mod),1000)
-    })
-
-  </script>
-  <style>
-    :root {
-      --max-grid-page-content-width:100ch;
-      --max-grid-page-content-padding:2rem;
-      --content-container-padding: max(calc((100vw - (var(--max-grid-page-content-width) + (2 * var(--max-grid-page-content-padding)))) / 2),1.25rem);
-    }
-    body {margin: 0;}
-    .page-wrapper > .content-container {
-      padding: 0 var(--content-container-padding);
-    }
-    .page-wrapper > header.content-container,
-    .page-wrapper > footer.content-container {
-      grid-column: 1/4;
-    }
-    .page-wrapper > .content-container:first-child {
-      padding-top: 2rem;
-    }
-    .page-wrapper > .content-container + .content-container {
-      margin-top: 1rem;
-    }
-
-    /* SIMPLE LOADING SPINNER - https://catswhocode.com/css-spinner/#cleanest-css-spinner-ever */
-    @keyframes spin {
-      to { transform: rotate(1turn); }
-    }
-    [data-loaded="false"] {
-      position: relative;
-      display: inline-block;
-      width: 5em;
-      height: 5em;
-      margin: 0 .5em;
-      font-size: 12px;
-      text-indent: 999em;
-      overflow: hidden;
-      animation: spin 1s infinite steps(8);
-    }
-
-    [data-loaded="false"] {
-      font-size: 6px;
-    }
-
-    [data-loaded="false"]:before,
-    [data-loaded="false"]:after,
-    [data-loaded="false"] > div:before,
-    [data-loaded="false"] > div:after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 2.25em; /* (container width - part width)/2  */
-      width: .5em;
-      height: 1.5em;
-      border-radius: .2em;
-      background: #eee;
-      box-shadow: 0 3.5em #eee; /* container height - part height */
-      transform-origin: 50% 2.5em; /* container height / 2 */
-    }
-
-    [data-loaded="false"]:before {
-      background: #555;
-    }
-
-    [data-loaded="false"]:after {
-      transform: rotate(-45deg);
-      background: #777;
-    }
-
-    [data-loaded="false"] > div:before {
-      transform: rotate(-90deg);
-      background: #999;
-    }
-
-    [data-loaded="false"] > div:after {
-      transform: rotate(-135deg);
-      background: #bbb;
-    }
-  </style>
+  <script src="js/index.js"></script>
 </body>
 </html>

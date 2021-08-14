@@ -1,5 +1,3 @@
-import {appendElementToDOM} from "../utils/index.js";
-
 const counterContainer = document.createElement("div");
 counterContainer.setAttribute("aria-label","Counter is at 0");
 counterContainer.style = "display:flex;align-items:center;";
@@ -47,4 +45,4 @@ counterContainer.addEventListener("focusout",()=>{
 counterInc.addEventListener("click",incrementCounter);
 counterDec.addEventListener("click",decrementCounter);
 
-export default appendElementToDOM(counterContainer);
+export default counterContainer;

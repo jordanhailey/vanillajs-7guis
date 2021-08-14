@@ -1,0 +1,78 @@
+:root {
+  --max-grid-page-content-width:100ch;
+  --max-grid-page-content-padding:2rem;
+  --content-container-padding: max(calc((100vw - (var(--max-grid-page-content-width) + (2 * var(--max-grid-page-content-padding)))) / 2),1.25rem);
+}
+
+body {margin: 0;}
+.page-wrapper > .content-container {
+  padding: 0 var(--content-container-padding);
+}
+
+.page-wrapper > header.content-container,
+.page-wrapper > footer.content-container {
+  grid-column: 1/4;
+}
+
+.page-wrapper > .content-container:first-child {
+  padding-top: 2rem;
+}
+
+.page-wrapper > .content-container + .content-container {
+  margin-top: 1rem;
+}
+
+/* SIMPLE LOADING SPINNER - https://catswhocode.com/css-spinner/#cleanest-css-spinner-ever */
+@keyframes spin {
+  to { transform: rotate(1turn); }
+}
+[data-loaded="false"] {
+  position: relative;
+  display: inline-block;
+  width: 5em;
+  height: 5em;
+  margin: 0 .5em;
+  font-size: 12px;
+  text-indent: 999em;
+  overflow: hidden;
+  animation: spin 1s infinite steps(8);
+}
+
+[data-loaded="false"] {
+  font-size: 6px;
+}
+
+[data-loaded="false"]:before,
+[data-loaded="false"]:after,
+[data-loaded="false"] > div:before,
+[data-loaded="false"] > div:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 2.25em; /* (container width - part width)/2  */
+  width: .5em;
+  height: 1.5em;
+  border-radius: .2em;
+  background: #eee;
+  box-shadow: 0 3.5em #eee; /* container height - part height */
+  transform-origin: 50% 2.5em; /* container height / 2 */
+}
+
+[data-loaded="false"]:before {
+  background: #555;
+}
+
+[data-loaded="false"]:after {
+  transform: rotate(-45deg);
+  background: #777;
+}
+
+[data-loaded="false"] > div:before {
+  transform: rotate(-90deg);
+  background: #999;
+}
+
+[data-loaded="false"] > div:after {
+  transform: rotate(-135deg);
+  background: #bbb;
+}
