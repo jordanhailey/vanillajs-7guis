@@ -7,8 +7,14 @@ function handleChangeEvent(value=NaN,type="") {
   let v = Number(value), temp, tType;
   if (v !== v) v = 0;
   if (!type) throw new Error("Must specify type");
-  if (type == "celsius") {temp = convertCtoF(v); tType = "fahrenheit"}
-  else if (type == "fahrenheit") {temp = convertFtoC(v); tType = "celsius"}
+  if (type == "celsius") {
+    temp = convertCtoF(v); tType = "fahrenheit";
+    generateARIAPhrase(value,temp,"celsius");
+  }
+  else if (type == "fahrenheit") {
+    temp = convertFtoC(v); tType = "celsius";
+    generateARIAPhrase(temp,value,"fahrenheit");
+  }
   document.querySelector(`#${tType}`).value = restrictDecimal(temp);
 }
 
@@ -23,8 +29,21 @@ const tempFLabel = document.createElement("label");
 const tempC = document.createElement("input");
 const tempF = document.createElement("input");
 
-tempCLabel.innerText = "Celsius"; 
+function generateARIAPhrase(cel,fah,changed = "celsius") {
+  const 
+    c = `${restrictDecimal(cel)} degrees Celsius`, 
+    f = `${restrictDecimal(fah)} degrees Fahrenheit`, 
+    phrase = changed == "celsius" ? 
+      `${c} is equivalent to ${f}` :  
+      `${f} is equivalent to ${c}.`; 
 
+  tempConverter.setAttribute("aria-label", phrase);
+}
+
+tempConverter.setAttribute("aria-label", `Temperature converter. Input a temperature in either Celsius or Fahrenheit to get the conversion.`)
+tempConverter.setAttribute("aria-live", "assertive");
+
+tempCLabel.innerText = "Celsius"; 
 tempFLabel.innerText = "Fahrenheit"; 
 
 tempC.id = "celsius";
